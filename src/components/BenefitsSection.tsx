@@ -48,7 +48,7 @@ const benefits: BenefitItem[] = [
 const BenefitsSection = () => {
   return (
     <Box sx={{ py: { xs: 10, md: 14 }, backgroundColor: "#F5FAF9" }}>
-      <Container maxWidth="lg">
+      <Container maxWidth="xl">
         <Typography
           variant="h3"
           sx={{

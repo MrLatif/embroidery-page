@@ -26,15 +26,19 @@ const benefits = [
 
 const WhyChoosePrintnest = () => {
   return (
-    <Box sx={{ backgroundColor: "#fff", py: { xs: 8, md: 12 } }}>
-      <Container maxWidth="lg">
+    <Box sx={{ backgroundColor: "#fff", py: { xs: 10, md: 14 } }}>
+      <Container maxWidth="xl">
         {/* Title */}
         <Typography
-          variant="h4"
+          variant="h3"
           fontWeight={700}
           textAlign="center"
-          mb={6}
-          sx={{ color: "#000" }}
+          mb={8}
+          sx={{
+            color: "#000",
+            fontSize: { xs: "1.9rem", md: "2.5rem" },
+            lineHeight: 1.3,
+          }}
         >
           Why Choose Printnest?
         </Typography>
@@ -47,7 +51,7 @@ const WhyChoosePrintnest = () => {
                 <Box
                   sx={{
                     width: 4,
-                    height: 28,
+                    height: 24,
                     backgroundColor: "#025A4C",
                     borderRadius: 1,
                     mt: 0.5,
@@ -58,11 +62,14 @@ const WhyChoosePrintnest = () => {
                   <Typography
                     variant="subtitle1"
                     fontWeight={600}
-                    sx={{ color: "#000" }}
+                    sx={{ color: "#000", fontSize: "1.05rem", mb: 0.5 }}
                   >
                     {b.title}
                   </Typography>
-                  <Typography variant="body2" color="text.secondary">
+                  <Typography
+                    variant="body2"
+                    sx={{ color: "text.secondary", fontSize: "0.95rem" }}
+                  >
                     {b.description}
                   </Typography>
                 </Box>
@@ -75,21 +82,25 @@ const WhyChoosePrintnest = () => {
         <Box
           sx={{
             mt: 10,
-            borderRadius: 4,
+            borderRadius: 3,
             overflow: "hidden",
-            boxShadow: 2,
+            boxShadow: "0px 6px 20px rgba(0, 0, 0, 0.04)",
           }}
         >
           <Box
             component="img"
             src={bannerImage}
             alt="Infinite Design Possibilities"
-            sx={{ width: "100%", height: "auto", display: "block" }}
+            sx={{
+              width: "100%",
+              height: "auto",
+              display: "block",
+              borderRadius: 3,
+            }}
           />
         </Box>
 
-        {/* Stitch Price Calculator */}
-        {/* Stitch Price Calculator - pill layout */}
+        {/* Stitch Price Calculator Pill */}
         <Box
           sx={{
             mt: 6,
@@ -102,18 +113,21 @@ const WhyChoosePrintnest = () => {
             justifyContent: "space-between",
             flexDirection: { xs: "column", sm: "row" },
             gap: 2,
-            boxShadow: "0 2px 6px rgba(0,0,0,0.05)",
+            boxShadow: "0 4px 16px rgba(0,0,0,0.04)",
           }}
         >
           <Box textAlign={{ xs: "center", sm: "left" }}>
             <Typography
               variant="subtitle1"
               fontWeight={700}
-              sx={{ mb: 0.5, color: "#000" }}
+              sx={{ mb: 0.5, color: "#000", fontSize: "1.1rem" }}
             >
               Stitch Price Calculator!
             </Typography>
-            <Typography variant="body2" sx={{ color: "text.secondary" }}>
+            <Typography
+              variant="body2"
+              sx={{ color: "text.secondary", fontSize: "0.95rem" }}
+            >
               Try it now and see the full cost of your design.
             </Typography>
           </Box>
@@ -122,9 +136,11 @@ const WhyChoosePrintnest = () => {
             variant="contained"
             sx={{
               backgroundColor: "#025A4C",
-              px: 4,
+              px: 5,
+              py: 1.5,
               borderRadius: "9999px",
               textTransform: "none",
+              fontWeight: 600,
               "&:hover": {
                 backgroundColor: "#014c3f",
               },

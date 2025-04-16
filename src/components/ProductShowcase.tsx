@@ -60,19 +60,21 @@ const ProductShowcase = () => {
   const theme = useTheme();
 
   return (
-    <Box sx={{ py: { xs: 8, md: 12 }, backgroundColor: "#fff" }}>
-      <Container maxWidth="lg">
+    <Box sx={{ py: { xs: 10, md: 14 }, backgroundColor: "#fff" }}>
+      <Container maxWidth="xl">
+        {/* Section title */}
         <Typography
-          variant="h4"
+          variant="h3"
           fontWeight={700}
           textAlign="center"
           mb={10}
-          sx={{ color: "#000" }}
+          sx={{ fontSize: { xs: "1.9rem", md: "2.5rem" }, color: "#000" }}
         >
           Explore Printnest’s unique custom embroidery products.
         </Typography>
 
-        <Stack spacing={10}>
+        {/* Product List */}
+        <Stack spacing={12}>
           {products.map((p, i) => (
             <Stack
               key={i}
@@ -90,31 +92,39 @@ const ProductShowcase = () => {
                 alt={p.title}
                 sx={{
                   width: "100%",
-                  maxWidth: 400,
-                  borderRadius: 4,
-                  boxShadow: 2,
+                  maxWidth: 500,
+                  borderRadius: 3,
                   objectFit: "cover",
+                  flexShrink: 0,
                 }}
               />
-
               <Box flex={1}>
                 <Typography
                   variant="h6"
                   fontWeight={700}
-                  sx={{ mb: 1, fontSize: "1.25rem", color: "#000" }}
+                  sx={{ mb: 1.5, fontSize: "1.4rem", color: "#000" }}
                 >
                   {p.title}
                 </Typography>
                 <Typography
                   variant="subtitle2"
                   fontWeight={500}
-                  sx={{ mb: 2, color: theme.palette.primary.main }}
+                  sx={{
+                    mb: 2,
+                    fontSize: "1rem",
+                    color: theme.palette.primary.main,
+                  }}
                 >
                   {p.subtitle}
                 </Typography>
                 <Typography
-                  variant="body2"
-                  sx={{ mb: 3, color: "text.secondary", maxWidth: 480 }}
+                  variant="body1"
+                  sx={{
+                    mb: 3,
+                    color: "text.secondary",
+                    lineHeight: 1.7,
+                    maxWidth: 520,
+                  }}
                 >
                   {p.description}
                 </Typography>
@@ -124,7 +134,9 @@ const ProductShowcase = () => {
                     backgroundColor: "#025A4C",
                     borderRadius: "9999px",
                     px: 4,
+                    py: 1.5,
                     textTransform: "none",
+                    fontWeight: 600,
                     "&:hover": { backgroundColor: "#014c3f" },
                   }}
                 >
@@ -136,50 +148,49 @@ const ProductShowcase = () => {
         </Stack>
 
         {/* Looking for more section */}
-        <Box mt={10}>
-          <Container>
-            <Box
-              sx={{
-                backgroundColor: "#F5FAF9",
-                borderRadius: "9999px",
-                px: { xs: 4, md: 6 },
-                py: { xs: 3, md: 4 },
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                flexDirection: { xs: "column", sm: "row" },
-                gap: 2,
-                boxShadow: "0 2px 6px rgba(0,0,0,0.05)",
-              }}
+        <Box
+          mt={12}
+          sx={{
+            backgroundColor: "#F5FAF9",
+            borderRadius: "9999px",
+            px: { xs: 4, md: 6 },
+            py: { xs: 3, md: 4 },
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            flexDirection: { xs: "column", sm: "row" },
+            gap: 2,
+            boxShadow: "0 2px 6px rgba(0,0,0,0.05)",
+          }}
+        >
+          <Box textAlign={{ xs: "center", sm: "left" }}>
+            <Typography
+              variant="subtitle1"
+              fontWeight={700}
+              sx={{ mb: 0.5, color: "#000", fontSize: "1.1rem" }}
             >
-              <Box textAlign={{ xs: "center", sm: "left" }}>
-                <Typography
-                  variant="subtitle1"
-                  fontWeight={700}
-                  sx={{ mb: 0.5, color: "#000" }}
-                >
-                  Looking for more?
-                </Typography>
-                <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                  Explore our wide range of products and find the perfect fit
-                  for your needs!
-                </Typography>
-              </Box>
+              Looking for more?
+            </Typography>
+            <Typography variant="body2" sx={{ color: "text.secondary" }}>
+              Explore our wide range of products and find the perfect fit for
+              your needs!
+            </Typography>
+          </Box>
 
-              <Button
-                variant="contained"
-                sx={{
-                  backgroundColor: "#025A4C",
-                  px: 4,
-                  borderRadius: "9999px",
-                  textTransform: "none",
-                  "&:hover": { backgroundColor: "#014c3f" },
-                }}
-              >
-                Explore All Products
-              </Button>
-            </Box>
-          </Container>
+          <Button
+            variant="contained"
+            sx={{
+              backgroundColor: "#025A4C",
+              px: 5,
+              py: 1.5,
+              borderRadius: "9999px",
+              textTransform: "none",
+              fontWeight: 600,
+              "&:hover": { backgroundColor: "#014c3f" },
+            }}
+          >
+            Explore All Products
+          </Button>
         </Box>
       </Container>
     </Box>

@@ -1,25 +1,20 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import HeroSection from "./components/HeroSection";
+import BenefitsSection from "./components/BenefitsSection";
+import WhyChoosePrintnest from "./components/WhyChoosePrintnest";
+import ProductShowcase from "./components/ProductShowcase";
+import MarketplaceIntegrationSection from "./components/MarketPlaceIntegrationSection";
+import FaqSection from "./components/FAQSection";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <HeroSection />
+      <BenefitsSection />
+      <WhyChoosePrintnest />
+      <ProductShowcase />
+      <MarketplaceIntegrationSection />
+      <FaqSection />
+    </>
   );
 }
 

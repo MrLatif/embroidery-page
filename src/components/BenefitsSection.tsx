@@ -48,7 +48,7 @@ const benefits: BenefitItem[] = [
 const BenefitsSection = () => {
   return (
     <Box sx={{ py: { xs: 10, md: 14 }, backgroundColor: "#F5FAF9" }}>
-      <Container maxWidth="xl">
+      <Container maxWidth="lg">
         <Typography
           variant="h3"
           sx={{
@@ -65,7 +65,7 @@ const BenefitsSection = () => {
 
         <Stack spacing={{ xs: 10, md: 14 }}>
           {benefits.map((item, index) => (
-            <BenefitRow key={index} item={item} reverse={index % 2 !== 0} />
+            <BenefitRow key={index} item={item} reverse={index % 2 === 0} />
           ))}
         </Stack>
       </Container>
@@ -91,18 +91,18 @@ const BenefitRow = ({
         src={item.icon}
         alt={item.title}
         sx={{
-          width: { xs: "100%", sm: 300, md: 360 },
+          height: { xs: "100%", sm: 300, md: 330 },
           borderRadius: 2,
           flexShrink: 0,
         }}
       />
       <Box sx={{ maxWidth: 560 }}>
         <Typography
-          variant="h6"
+          variant="h3"
           sx={{
-            fontSize: "1.4rem",
-            fontWeight: 700,
-            mb: 1.5,
+            fontSize: { xs: "1.75rem", md: "2.625rem" }, // 28px mobile, 42px desktop
+            fontWeight: 500,
+            mb: 2,
             color: "#000",
           }}
         >
@@ -111,7 +111,7 @@ const BenefitRow = ({
         <Typography
           variant="body1"
           sx={{
-            fontSize: "1rem",
+            fontSize: { xs: "1rem", md: "1.25rem" }, // 16px -> 20px for better reading
             lineHeight: 1.7,
             color: "text.secondary",
           }}

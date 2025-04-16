@@ -41,7 +41,7 @@ const faqs = [
 const FaqSection = () => {
   return (
     <Box sx={{ py: { xs: 8, md: 12 }, backgroundColor: "#F5FAF9" }}>
-      <Container maxWidth="xl">
+      <Container maxWidth="lg">
         <Typography
           variant="h4"
           fontWeight={700}

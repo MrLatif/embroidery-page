@@ -30,8 +30,8 @@ const steps = [
 
 const HowItWorksSection = () => {
   return (
-    <Box sx={{ backgroundColor: "#fff", py: { xs: 10, md: 14 } }}>
-      <Container maxWidth="xl">
+    <Box sx={{ backgroundColor: "#F7FCFC", py: { xs: 5, md: 7 } }}>
+      <Container maxWidth="lg">
         <Typography
           variant="h3"
           textAlign="center"

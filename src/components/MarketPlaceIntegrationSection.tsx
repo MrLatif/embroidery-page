@@ -4,7 +4,7 @@ import integrationImage from "../assets/images/webp/marketplace-integration.webp
 const MarketplaceIntegrationSection = () => {
   return (
     <Box sx={{ backgroundColor: "#fff", py: { xs: 10, md: 14 } }}>
-      <Container maxWidth="xl">
+      <Container maxWidth="lg">
         {/* Section Title */}
         <Typography
           variant="h3"

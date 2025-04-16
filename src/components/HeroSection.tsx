@@ -9,7 +9,7 @@ const HeroSection = () => {
         py: { xs: 10, md: 14 },
       }}
     >
-      <Container maxWidth="xl">
+      <Container maxWidth="lg">
         <Stack
           direction={{ xs: "column", md: "row" }}
           alignItems="center"

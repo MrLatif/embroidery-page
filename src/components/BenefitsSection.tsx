@@ -5,6 +5,7 @@ import durabilityIcon from "../assets/images/webp/Durability.webp";
 import tactileIcon from "../assets/images/webp/Tactile-Feel.webp";
 import versatilityIcon from "../assets/images/webp/Versatility.webp";
 import ecoIcon from "../assets/images/webp/Eco-Friendly.webp";
+
 interface BenefitItem {
   icon: string;
   title: string;
@@ -46,28 +47,25 @@ const benefits: BenefitItem[] = [
 
 const BenefitsSection = () => {
   return (
-    <Box sx={{ py: { xs: 8, md: 12 }, backgroundColor: "#f9f9f9" }}>
-      <Container maxWidth="md">
+    <Box sx={{ py: { xs: 10, md: 14 }, backgroundColor: "#F5FAF9" }}>
+      <Container maxWidth="lg">
         <Typography
-          variant="h4"
+          variant="h3"
           sx={{
             fontWeight: 700,
             textAlign: "center",
-            mb: 8,
-            fontSize: { xs: "1.75rem", md: "2.5rem" },
+            mb: 10,
+            fontSize: { xs: "1.9rem", md: "2.5rem" },
+            lineHeight: 1.3,
             color: "#000",
           }}
         >
           Why Should You Add Embroidered Products to Your Store?
         </Typography>
 
-        <Stack spacing={8}>
+        <Stack spacing={{ xs: 10, md: 14 }}>
           {benefits.map((item, index) => (
-            <BenefitRow
-              key={index}
-              item={item}
-              reverse={index % 2 === 0} // Start with image on right
-            />
+            <BenefitRow key={index} item={item} reverse={index % 2 !== 0} />
           ))}
         </Stack>
       </Container>
@@ -85,37 +83,37 @@ const BenefitRow = ({
   return (
     <Stack
       direction={{ xs: "column", md: reverse ? "row-reverse" : "row" }}
-      spacing={{ xs: 4, md: 6 }}
       alignItems="center"
-      justifyContent="center"
+      spacing={{ xs: 4, md: 8 }}
     >
       <Box
         component="img"
         src={item.icon}
         alt={item.title}
         sx={{
-          width: { xs: "100%", md: 240 },
-          borderRadius: 3,
-          boxShadow: 3,
-          objectFit: "cover",
+          width: { xs: "100%", sm: 300, md: 360 },
+          borderRadius: 2,
           flexShrink: 0,
         }}
       />
-
-      <Box sx={{ maxWidth: 500 }}>
+      <Box sx={{ maxWidth: 560 }}>
         <Typography
           variant="h6"
-          fontWeight={700}
-          sx={{ mb: 1, fontSize: "1.25rem", color: "#000" }}
+          sx={{
+            fontSize: "1.4rem",
+            fontWeight: 700,
+            mb: 1.5,
+            color: "#000",
+          }}
         >
           {item.title}
         </Typography>
         <Typography
           variant="body1"
           sx={{
+            fontSize: "1rem",
+            lineHeight: 1.7,
             color: "text.secondary",
-            lineHeight: 1.6,
-            fontSize: "0.95rem",
           }}
         >
           {item.description}

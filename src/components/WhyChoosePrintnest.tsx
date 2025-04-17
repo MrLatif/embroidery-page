@@ -1,5 +1,7 @@
 import { Box, Typography, Container, Grid, Stack, Button } from "@mui/material";
 import bannerImage from "../assets/images/webp/banner1.webp";
+import EmbroideryCalculatorModal from "./CalculatorModal/EmbroideryCalculatorModal";
+import { useState } from "react";
 
 const benefits = [
   {
@@ -25,6 +27,7 @@ const benefits = [
 ];
 
 const WhyChoosePrintnest = () => {
+  const [open, setOpen] = useState(false);
   return (
     <Box sx={{ backgroundColor: "#fff", py: { xs: 5, md: 7 } }}>
       <Container maxWidth="lg">
@@ -147,6 +150,7 @@ const WhyChoosePrintnest = () => {
 
           <Button
             variant="contained"
+            onClick={() => setOpen(true)}
             sx={{
               backgroundColor: "#025A4C",
               px: 6,
@@ -166,6 +170,7 @@ const WhyChoosePrintnest = () => {
           </Button>
         </Box>
       </Container>
+      <EmbroideryCalculatorModal open={open} onClose={() => setOpen(false)} />
     </Box>
   );
 };

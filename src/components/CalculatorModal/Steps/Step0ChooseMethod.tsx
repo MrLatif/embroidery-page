@@ -35,6 +35,7 @@ const Step0ChooseMethod = ({ onNext, onCancel }: Props) => {
       >
         <FormControlLabel
           value="upload"
+          disabled
           control={<Radio sx={{ color: "#025A4C" }} />}
           label={
             <Typography fontSize={{ xs: "1rem", md: "1.125rem" }}>

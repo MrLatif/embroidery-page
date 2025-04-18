@@ -3,6 +3,7 @@ import { TransitionProps } from "@mui/material/transitions";
 import { forwardRef, useState } from "react";
 import Step0ChooseMethod from "./Steps/Step0ChooseMethod";
 import Step1ManualInput from "./Steps/Step1ManualInput";
+import Step2ProductSelection from "./Steps/Step2ProductSelection";
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & { children: React.ReactElement },
@@ -25,7 +26,7 @@ const EmbroideryCalculatorModal = ({
 
   const [step, setStep] = useState(0);
   const [method, setMethod] = useState<"upload" | "manual" | null>(null);
-  const [stitchCount, setStitchCount] = useState(0);
+  const [stitchCount, setStitchCount] = useState<number>(0);
 
   const handleClose = () => {
     setStep(0);
@@ -57,6 +58,17 @@ const EmbroideryCalculatorModal = ({
           );
         }
         return <div>Upload flow coming soon...</div>;
+      case 2:
+        return (
+          <Step2ProductSelection
+            stitchCount={stitchCount}
+            onBack={() => setStep(1)}
+            onFinish={() => {
+              // maybe close or go to confirmation
+              onClose();
+            }}
+          />
+        );
       default:
         return <div>Coming soon...</div>;
     }

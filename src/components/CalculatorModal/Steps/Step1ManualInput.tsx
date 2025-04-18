@@ -42,7 +42,7 @@ const Step1ManualInput = ({
         <Slider
           min={0}
           max={50000}
-          step={100}
+          step={1000}
           value={internalValue}
           onChange={handleSliderChange}
           sx={{ flex: 1 }}

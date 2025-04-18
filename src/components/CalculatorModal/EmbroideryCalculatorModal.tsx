@@ -31,6 +31,7 @@ const EmbroideryCalculatorModal = ({
   const handleClose = () => {
     setStep(0);
     setMethod(null);
+    setStitchCount(0);
     onClose();
   };
 
@@ -57,20 +58,17 @@ const EmbroideryCalculatorModal = ({
             />
           );
         }
-        return <div>Upload flow coming soon...</div>;
+        return <Box>Upload flow coming soon...</Box>;
       case 2:
         return (
           <Step2ProductSelection
             stitchCount={stitchCount}
             onBack={() => setStep(1)}
-            onFinish={() => {
-              // maybe close or go to confirmation
-              onClose();
-            }}
+            onFinish={handleClose}
           />
         );
       default:
-        return <div>Coming soon...</div>;
+        return <Box>Coming soon...</Box>;
     }
   };
 
@@ -78,13 +76,14 @@ const EmbroideryCalculatorModal = ({
     <Dialog
       open={open}
       onClose={handleClose}
-      fullWidth
+      fullScreen={false}
       maxWidth="sm"
-      fullScreen={fullScreen}
+      fullWidth
       TransitionComponent={Transition}
       PaperProps={{
         sx: {
-          borderRadius: { xs: 0, sm: 4 },
+          borderRadius: 3,
+          mx: 2, // small horizontal margin on mobile
           p: { xs: 2, sm: 3 },
         },
       }}

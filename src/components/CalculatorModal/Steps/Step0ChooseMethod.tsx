@@ -6,6 +6,8 @@ import {
   Radio,
   Button,
   Stack,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { useState } from "react";
 
@@ -16,9 +18,11 @@ interface Props {
 
 const Step0ChooseMethod = ({ onNext, onCancel }: Props) => {
   const [selected, setSelected] = useState<"upload" | "manual" | null>(null);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
-    <Box>
+    <Box maxWidth="100%">
       <Typography
         fontWeight={700}
         fontSize={{ xs: "1.5rem", md: "2rem" }}
@@ -54,9 +58,15 @@ const Step0ChooseMethod = ({ onNext, onCancel }: Props) => {
         />
       </RadioGroup>
 
-      <Stack direction="row" spacing={2} justifyContent="flex-end" mt={4}>
+      <Stack
+        direction={isMobile ? "column-reverse" : "row"}
+        spacing={2}
+        justifyContent="flex-end"
+        mt={4}
+      >
         <Button
           onClick={onCancel}
+          fullWidth={isMobile}
           sx={{
             color: "#025A4C",
             textTransform: "none",
@@ -70,6 +80,7 @@ const Step0ChooseMethod = ({ onNext, onCancel }: Props) => {
           variant="contained"
           onClick={() => selected && onNext(selected)}
           disabled={!selected}
+          fullWidth={isMobile}
           sx={{
             backgroundColor: "#025A4C",
             px: 4,

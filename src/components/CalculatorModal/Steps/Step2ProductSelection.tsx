@@ -20,17 +20,25 @@ interface Product {
   price_with_mod: string;
 }
 
+interface Variant {
+  option1_id: number;
+  option2_id: number;
+  price: string;
+  name: string;
+}
+
+interface Option {
+  name: string;
+  option1_id: number;
+}
+
 interface Step2ProductSelectionProps {
   stitchCount: number;
   onBack: () => void;
   onFinish: () => void;
 }
 
-const SHIPPING_COSTS = {
-  US: 4.79,
-  INTL: 24.79,
-};
-
+const SHIPPING_COSTS = { US: 4.79, INTL: 24.79 };
 const STITCH_COST_PER_UNIT = 0.00075;
 
 const Step2ProductSelection = ({
@@ -42,20 +50,47 @@ const Step2ProductSelection = ({
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isUS, setIsUS] = useState(true);
   const [loading, setLoading] = useState(true);
+  const [sizes, setSizes] = useState<Option[]>([]);
+  const [colors, setColors] = useState<string[]>([]);
+  const [variants, setVariants] = useState<Variant[]>([]);
+  const [selectedSize, setSelectedSize] = useState<Option | null>(null);
+  const [selectedColor, setSelectedColor] = useState<string | null>(null);
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  // const productCost = selectedProduct
+  //   ? parseFloat(selectedProduct.price_with_mod)
+  //   : 0;
+
+  const stitchCost = parseFloat(
+    (stitchCount * STITCH_COST_PER_UNIT).toFixed(2)
+  );
+
+  const shippingCost = isUS ? SHIPPING_COSTS.US : SHIPPING_COSTS.INTL;
+
+  const selectedVariantPrice = variants.find(
+    (v) => v.option1_id === selectedSize?.option1_id && v.name === selectedColor
+  )?.price;
+
+  const productCost = selectedVariantPrice
+    ? parseFloat(selectedVariantPrice)
+    : 0;
+
+  const total = (productCost + stitchCost + shippingCost).toFixed(2);
+
+  const productImageUrl = selectedProduct
+    ? `https://printnest-products.s3.eu-central-1.amazonaws.com/t_${selectedProduct.product_id}_0.png`
+    : null;
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const res = await fetch("https://printnest.com/api/products");
         const data = await res.json();
-
         const embroideryProducts = Object.values(data)
           .flat()
           .filter((p: any) => p.tags?.includes("Embroidery"));
-
         setProducts(embroideryProducts as Product[]);
         setLoading(false);
       } catch (err) {
@@ -63,24 +98,38 @@ const Step2ProductSelection = ({
         setLoading(false);
       }
     };
-
     fetchProducts();
   }, []);
 
-  const productCost = selectedProduct
-    ? parseFloat(selectedProduct.price_with_mod)
-    : 0;
+  useEffect(() => {
+    const fetchProductDetails = async () => {
+      if (!selectedProduct) return;
 
-  const stitchCost = parseFloat(
-    (stitchCount * STITCH_COST_PER_UNIT).toFixed(2)
-  );
+      const [sizesRes, variantsRes] = await Promise.all([
+        fetch(
+          `https://printnest.com/api/option1/${selectedProduct.product_id}`
+        ),
+        fetch(
+          `https://printnest.com/api/variants/${selectedProduct.product_id}`
+        ),
+      ]);
 
-  const shippingCost = isUS ? SHIPPING_COSTS.US : SHIPPING_COSTS.INTL;
-  const total = (productCost + stitchCost + shippingCost).toFixed(2);
+      const sizesData = await sizesRes.json();
+      const variantsData = await variantsRes.json();
 
-  const productImageUrl = selectedProduct
-    ? `https://printnest-products.s3.eu-central-1.amazonaws.com/t_${selectedProduct.product_id}_0.png`
-    : null;
+      const uniqueColors = Array.from(
+        new Set(variantsData.map((v: Variant) => v.name))
+      );
+
+      setSizes(sizesData);
+      setVariants(variantsData);
+      setColors(uniqueColors as string[]);
+      setSelectedSize(null);
+      setSelectedColor(null);
+    };
+
+    fetchProductDetails();
+  }, [selectedProduct]);
 
   return (
     <Box>
@@ -109,7 +158,7 @@ const Step2ProductSelection = ({
             justifyContent: "center",
             overflow: "hidden",
             mx: { xs: "auto", sm: 0 },
-            bgcolor: selectedProduct ? "#fff" : "#f9f9f9", // <- this line is the fix
+            bgcolor: selectedProduct ? "#fff" : "#f9f9f9",
           }}
         >
           {productImageUrl ? (
@@ -122,9 +171,7 @@ const Step2ProductSelection = ({
                 maxHeight: "100%",
                 objectFit: "contain",
                 transition: "transform 0.3s ease",
-                "&:hover": {
-                  transform: "scale(1.05)",
-                },
+                "&:hover": { transform: "scale(1.05)" },
               }}
             />
           ) : (
@@ -134,7 +181,6 @@ const Step2ProductSelection = ({
           )}
         </Box>
 
-        {/* Product select + address */}
         <Stack spacing={2} flex={1} width="100%">
           <Autocomplete
             options={products}
@@ -160,29 +206,44 @@ const Step2ProductSelection = ({
             )}
           />
 
+          {selectedProduct && (
+            <>
+              <Autocomplete
+                options={sizes}
+                getOptionLabel={(option) => option.name}
+                value={selectedSize}
+                onChange={(_, val) => setSelectedSize(val)}
+                renderInput={(params) => (
+                  <TextField {...params} label="Size" size="small" fullWidth />
+                )}
+              />
+
+              <Autocomplete
+                options={colors}
+                getOptionLabel={(option) => option}
+                value={selectedColor}
+                onChange={(_, val) => setSelectedColor(val)}
+                renderInput={(params) => (
+                  <TextField {...params} label="Color" size="small" fullWidth />
+                )}
+              />
+            </>
+          )}
+
           <Box>
             <Typography fontWeight={600} mb={1}>
               Recipient Address
             </Typography>
-
             <Stack spacing={0.5}>
               <FormControlLabel
                 control={
-                  <Checkbox
-                    checked={isUS}
-                    onChange={() => setIsUS(true)}
-                    sx={{ color: "#000" }}
-                  />
+                  <Checkbox checked={isUS} onChange={() => setIsUS(true)} />
                 }
                 label="United States"
               />
               <FormControlLabel
                 control={
-                  <Checkbox
-                    checked={!isUS}
-                    onChange={() => setIsUS(false)}
-                    sx={{ color: "#000" }}
-                  />
+                  <Checkbox checked={!isUS} onChange={() => setIsUS(false)} />
                 }
                 label="Other Countries"
               />
@@ -248,7 +309,6 @@ const Step2ProductSelection = ({
         <Typography
           fontWeight={700}
           fontSize={{ xs: "1.25rem", sm: "1.25rem" }}
-          sx={{ mb: { xs: 0, sm: 0 } }}
         >
           Total: ${total}
         </Typography>
@@ -258,31 +318,18 @@ const Step2ProductSelection = ({
           spacing={2}
           sx={{ width: { xs: "100%", sm: "auto" } }}
         >
-          <Button
-            onClick={onBack}
-            color="inherit"
-            sx={{
-              fontWeight: 600,
-              fontSize: "1rem",
-              width: { xs: "100%", sm: "auto" },
-            }}
-          >
+          <Button onClick={onBack} color="inherit" sx={{ fontWeight: 600 }}>
             Back
           </Button>
           <Button
             variant="contained"
-            disabled={!selectedProduct}
+            disabled={!selectedProduct || !selectedSize || !selectedColor}
             onClick={onFinish}
             sx={{
               backgroundColor: "#025A4C",
               textTransform: "none",
               fontWeight: 600,
-              fontSize: "1rem",
-              px: 4,
-              width: { xs: "100%", sm: "auto" },
-              "&:hover": {
-                backgroundColor: "#014c3f",
-              },
+              "&:hover": { backgroundColor: "#014c3f" },
             }}
           >
             Get Started

@@ -25,7 +25,7 @@ const Step0ChooseMethod = ({ onNext, onCancel }: Props) => {
     <Box maxWidth="100%">
       <Typography
         fontWeight={700}
-        fontSize={{ xs: "1.5rem", md: "2rem" }}
+        fontSize={{ xs: "1.25rem", sm: "1.5rem" }}
         textAlign="center"
         mb={4}
       >
@@ -66,7 +66,7 @@ const Step0ChooseMethod = ({ onNext, onCancel }: Props) => {
       >
         <Button
           onClick={onCancel}
-          fullWidth={isMobile}
+          color="inherit"
           sx={{
             color: "#025A4C",
             textTransform: "none",
@@ -83,12 +83,7 @@ const Step0ChooseMethod = ({ onNext, onCancel }: Props) => {
           fullWidth={isMobile}
           sx={{
             backgroundColor: "#025A4C",
-            px: 4,
-            py: 1.25,
-            borderRadius: 2,
             textTransform: "none",
-            fontWeight: 600,
-            fontSize: "1rem",
             "&:hover": {
               backgroundColor: "#014c3f",
             },

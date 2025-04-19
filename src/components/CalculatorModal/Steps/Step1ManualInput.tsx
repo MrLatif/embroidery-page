@@ -11,12 +11,12 @@ import { useState } from "react";
 const Step1ManualInput = ({
   value,
   onChange,
-  onBack,
+  onCancel,
   onNext,
 }: {
   value: number;
   onChange: (val: number) => void;
-  onBack: () => void;
+  onCancel: () => void;
   onNext: () => void;
 }) => {
   const [internalValue, setInternalValue] = useState(value || 0);
@@ -62,8 +62,8 @@ const Step1ManualInput = ({
       </Stack>
 
       <Stack direction="row" justifyContent="space-between">
-        <Button onClick={onBack} color="inherit">
-          Back
+        <Button onClick={onCancel} color="inherit">
+          Cancel
         </Button>
         <Button
           variant="contained"

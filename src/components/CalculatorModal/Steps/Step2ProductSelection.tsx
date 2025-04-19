@@ -185,7 +185,7 @@ const Step2ProductSelection = ({
                 maxHeight: "100%",
                 objectFit: "contain",
                 transition: "transform 0.3s ease",
-                "&:hover": { transform: "scale(1.05)" },
+                "&:hover": { transform: "scale(1.3)" },
               }}
             />
           ) : (

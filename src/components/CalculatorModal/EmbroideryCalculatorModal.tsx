@@ -37,33 +37,31 @@ const EmbroideryCalculatorModal = ({
 
   const renderStep = () => {
     switch (step) {
-      case 0:
+      // case 0:
+      //   return (
+      //     <Step0ChooseMethod
+      //       onNext={(selectedMethod: "upload" | "manual") => {
+      //         setMethod(selectedMethod);
+      //         setStep(1);
+      //       }}
+      //       onCancel={handleClose}
+      //     />
+      //   );
+      case 0: {
         return (
-          <Step0ChooseMethod
-            onNext={(selectedMethod: "upload" | "manual") => {
-              setMethod(selectedMethod);
-              setStep(1);
-            }}
+          <Step1ManualInput
+            value={stitchCount}
+            onChange={(val) => setStitchCount(val)}
             onCancel={handleClose}
+            onNext={() => setStep(1)}
           />
         );
+      }
       case 1:
-        if (method === "manual") {
-          return (
-            <Step1ManualInput
-              value={stitchCount}
-              onChange={(val) => setStitchCount(val)}
-              onBack={() => setStep(0)}
-              onNext={() => setStep(2)}
-            />
-          );
-        }
-        return <Box>Upload flow coming soon...</Box>;
-      case 2:
         return (
           <Step2ProductSelection
             stitchCount={stitchCount}
-            onBack={() => setStep(1)}
+            onBack={() => setStep(0)}
             onFinish={handleClose}
           />
         );

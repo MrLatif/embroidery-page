@@ -38,7 +38,6 @@ interface Step2ProductSelectionProps {
   onFinish: () => void;
 }
 
-const SHIPPING_COSTS = { US: 4.79, INTL: 24.79 };
 const STITCH_COST_PER_UNIT = 0.00075;
 
 const Step2ProductSelection = ({
@@ -55,6 +54,12 @@ const Step2ProductSelection = ({
   const [variants, setVariants] = useState<Variant[]>([]);
   const [selectedSize, setSelectedSize] = useState<Option | null>(null);
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
+  const [isHeavy, setIsHeavy] = useState(false);
+
+  const SHIPPING_COSTS = {
+    US: isHeavy ? 6.4 : 4.79,
+    INTL: isHeavy ? 26.4 : 24.79,
+  };
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -67,7 +72,11 @@ const Step2ProductSelection = ({
     (stitchCount * STITCH_COST_PER_UNIT).toFixed(2)
   );
 
-  const shippingCost = isUS ? SHIPPING_COSTS.US : SHIPPING_COSTS.INTL;
+  const shippingCost = selectedProduct
+    ? isUS
+      ? SHIPPING_COSTS.US
+      : SHIPPING_COSTS.INTL
+    : 0;
 
   const selectedVariantPrice = variants.find(
     (v) => v.option1_id === selectedSize?.option1_id && v.name === selectedColor
@@ -105,17 +114,21 @@ const Step2ProductSelection = ({
     const fetchProductDetails = async () => {
       if (!selectedProduct) return;
 
-      const [sizesRes, variantsRes] = await Promise.all([
+      const [sizesRes, variantsRes, productInfoRes] = await Promise.all([
         fetch(
           `https://printnest.com/api/option1/${selectedProduct.product_id}`
         ),
         fetch(
           `https://printnest.com/api/variants/${selectedProduct.product_id}`
         ),
+        fetch(
+          `https://printnest.com/api/product/${selectedProduct.product_id}`
+        ),
       ]);
 
       const sizesData = await sizesRes.json();
       const variantsData = await variantsRes.json();
+      const productInfoData = await productInfoRes.json();
 
       const uniqueColors = Array.from(
         new Set(variantsData.map((v: Variant) => v.name))
@@ -124,6 +137,7 @@ const Step2ProductSelection = ({
       setSizes(sizesData);
       setVariants(variantsData);
       setColors(uniqueColors as string[]);
+      setIsHeavy(productInfoData?.[0]?.is_heavy || false);
       setSelectedSize(null);
       setSelectedColor(null);
     };

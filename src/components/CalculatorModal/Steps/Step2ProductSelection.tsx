@@ -70,11 +70,17 @@ const Step2ProductSelection = ({
   const productCost = selectedProduct
     ? parseFloat(selectedProduct.price_with_mod)
     : 0;
+
   const stitchCost = parseFloat(
     (stitchCount * STITCH_COST_PER_UNIT).toFixed(2)
   );
+
   const shippingCost = isUS ? SHIPPING_COSTS.US : SHIPPING_COSTS.INTL;
   const total = (productCost + stitchCost + shippingCost).toFixed(2);
+
+  const productImageUrl = selectedProduct
+    ? `https://printnest-products.s3.eu-central-1.amazonaws.com/t_${selectedProduct.product_id}_0.png`
+    : null;
 
   return (
     <Box>
@@ -92,7 +98,6 @@ const Step2ProductSelection = ({
         mb={4}
         alignItems="flex-start"
       >
-        {/* Design Upload Placeholder */}
         <Box
           sx={{
             width: { xs: "100%", sm: 180 },
@@ -102,15 +107,34 @@ const Step2ProductSelection = ({
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            color: "text.secondary",
-            fontWeight: 500,
+            overflow: "hidden",
             mx: { xs: "auto", sm: 0 },
+            bgcolor: selectedProduct ? "#fff" : "#f9f9f9", // <- this line is the fix
           }}
         >
-          Design
+          {productImageUrl ? (
+            <Box
+              component="img"
+              src={productImageUrl}
+              alt={selectedProduct?.title}
+              sx={{
+                maxWidth: "100%",
+                maxHeight: "100%",
+                objectFit: "contain",
+                transition: "transform 0.3s ease",
+                "&:hover": {
+                  transform: "scale(1.05)",
+                },
+              }}
+            />
+          ) : (
+            <Typography color="text.secondary" fontWeight={500}>
+              Design
+            </Typography>
+          )}
         </Box>
 
-        {/* Product Dropdown + Address */}
+        {/* Product select + address */}
         <Stack spacing={2} flex={1} width="100%">
           <Autocomplete
             options={products}
@@ -167,9 +191,6 @@ const Step2ProductSelection = ({
         </Stack>
       </Stack>
 
-      {/* <Divider sx={{ mb: 2 }} /> */}
-
-      {/* Receipt Section */}
       <Box mb={3}>
         <Typography fontWeight={600} mb={1}>
           Here are the results:
@@ -207,7 +228,6 @@ const Step2ProductSelection = ({
                 ({stitchCount.toLocaleString()} × {STITCH_COST_PER_UNIT})
               </Typography>
             </Typography>
-
             <Typography>
               <strong>Shipping:</strong> ${shippingCost.toFixed(2)}
             </Typography>
@@ -225,7 +245,6 @@ const Step2ProductSelection = ({
         mt={3}
         flexWrap="wrap"
       >
-        {/* Total */}
         <Typography
           fontWeight={700}
           fontSize={{ xs: "1.25rem", sm: "1.25rem" }}
@@ -234,7 +253,6 @@ const Step2ProductSelection = ({
           Total: ${total}
         </Typography>
 
-        {/* Buttons */}
         <Stack
           direction={{ xs: "column-reverse", sm: "row" }}
           spacing={2}
